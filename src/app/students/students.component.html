@@ -1,0 +1,34 @@
+<ul class="list-group">
+    <li *ngFor="let student of listStudent" class="list-group-item" 
+    [ngClass]="{'active': selectedStudent && student.id==selectedStudent.id,
+                'list-group-item-success': student.activ }"
+                [class.list-group-item-danger]="student.AvgMark==90"> 
+                <!-- לא מצליחה לעשות יותר גדול מ-90  -->
+        <div class="row">
+            <div class="col-1">{{student.id}}</div>
+            <div class="col-1">{{student.f_name}}</div>
+            <div class="col-1">{{student.l_name}}</div>
+            <div class="col-1">{{student.address}}</div>
+            <div class="col-1">{{student.phon}}</div>
+        </div>
+        <div class="col-2">
+            <button (click)="deleteStudent(student)">Delete Stutent</button>
+        </div>
+        <div class="col-2">
+            <button (click)="showDetails(student)">Show Details</button>
+        </div>
+    </li>
+</ul>
+<button class="btn btn-primary"(click)="showNewStudentDetails()">Add New student</button>
+
+<br>
+
+<!-- <student-details-from [student]="selectedStudent" (onSaveStudent)="saveStudentToList($event)" (onFirstFocus)="showHelp()"></student-details-from> -->
+
+<!-- <student-detais  [s]="selectedStudent"  (onSaveNewTask)="addNewStudentToList2()" (onFirstFocus)="showAdv()"></student-detais > -->
+
+
+
+<!-- <li *ngFor="let s of students" class="list-group-item">
+    <div class="col-1">{{student.id}}</div>
+</li> -->

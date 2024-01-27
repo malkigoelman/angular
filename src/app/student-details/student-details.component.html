@@ -1,0 +1,19 @@
+<div class="card" *ngIf="student">
+    <div class="card-body">
+            <div class="form-group">
+                <label for="name">Student f_Name</label>
+                <input type="text" class="form-control" id="name"  [(ngModel)]="student.firstName">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Student l_name</label>
+                <input type="text" class="form-control" id="name"   [(ngModel)]="student.lastName">
+            </div>
+            <input [(ngModel)]="student.address" type="text" placeholder="address">
+            <input [(ngModel)]="student.phone" type="text" placeholder="phone">
+            active?<input type="text" [(ngModel)]="student.isActive">
+            <input *ngIf="!student.isActive" type="datetime" [(ngModel)]="student.lastDay">
+            Average:<input type="number" [(ngModel)]="student.avgMarks">
+            <br>
+            <button class="btn btn-primary" (click)="SaveNewStudent()">Save</button>
+    </div>
+</div>
