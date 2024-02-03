@@ -3,7 +3,7 @@ import { Student } from '../models/student.modle';
 
 @Component({
   selector: 'student-detais',
-  templateUrl: './student-detais.component.html'
+  templateUrl: './student-details.component.html'
 })
 export class StudentDetaisComponent  implements OnInit{
 

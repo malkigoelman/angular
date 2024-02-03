@@ -1,34 +1,24 @@
+
+<input type="checkbox" #cbx (change)="showStudentByIsActiv(cbx.checked)"/>show IsAvtive student <br>
+
 <ul class="list-group">
-    <li *ngFor="let student of listStudent" class="list-group-item" 
-    [ngClass]="{'active': selectedStudent && student.id==selectedStudent.id,
-                'list-group-item-success': student.activ }"
-                [class.list-group-item-danger]="student.AvgMark==90"> 
-                <!-- לא מצליחה לעשות יותר גדול מ-90  -->
-        <div class="row">
-            <div class="col-1">{{student.id}}</div>
-            <div class="col-1">{{student.f_name}}</div>
-            <div class="col-1">{{student.l_name}}</div>
-            <div class="col-1">{{student.address}}</div>
-            <div class="col-1">{{student.phon}}</div>
-        </div>
-        <div class="col-2">
-            <button (click)="deleteStudent(student)">Delete Stutent</button>
-        </div>
-        <div class="col-2">
-            <button (click)="showDetails(student)">Show Details</button>
-        </div>
+    <li *ngFor="let student of listStudent" class="list-group-item"
+        [ngClass]="{'list-group-item-danger' :student.isActive == 'false', 'active':student.avgMarks > 90}">
+        <button style="width:100%; padding:0;" class="row" (click)="onFocusStudent(student)">
+            <div style="padding: 0px;" class="col-8">
+                {{student.id}}:{{student.firstName}} {{student.lastName}}
+                {{student.address}} {{student.phone}} total: {{this.total(student)}}
+                Active?{{student.isActive}} Average:{{student.avgMarks}} </div>
+            <div>
+                <button (click)="deleteStudent(student)">Delete Stutent</button>
+                <button (click)="showDetails(student)">Show Details</button>
+            </div>
+        </button>"
     </li>
 </ul>
-<button class="btn btn-primary"(click)="showNewStudentDetails()">Add New student</button>
-
+<br>
+<button class="btn btn-primary" (click)="showNewStudentDetails()">Add New student</button>
+<button class=""btn btn-success" (click)="saveStudentToServer()">Save Student To Server</button>
 <br>
 
-<!-- <student-details-from [student]="selectedStudent" (onSaveStudent)="saveStudentToList($event)" (onFirstFocus)="showHelp()"></student-details-from> -->
-
-<!-- <student-detais  [s]="selectedStudent"  (onSaveNewTask)="addNewStudentToList2()" (onFirstFocus)="showAdv()"></student-detais > -->
-
-
-
-<!-- <li *ngFor="let s of students" class="list-group-item">
-    <div class="col-1">{{student.id}}</div>
-</li> -->
+<student-details-from [student]="selectedStudent" (onSaveStudent)="saveStudentToList($event)"></student-details-from>

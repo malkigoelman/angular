@@ -1,0 +1,6 @@
+{
+    "/api/*":{
+        "target":"https://localhost:7028/api/student",
+        "secure":false
+    }
+}

@@ -1,15 +1,43 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { StudentService } from '../student.service';
-import {Priority, Student} from "../task.model";
+import { Student } from '../models/student.modle';
 
 @Component({
   selector: 'students',
   templateUrl: './students.component.html',
 })
-export class StudentsComponent implements OnInit{
+export class StudentsComponent implements OnInit {
 
-  priority=Priority;
+  students: Student[] = [];
+  selectedStudent: Student | undefined;
 
+  listStudent: Student[] = this._studentService.getStudent();
+
+  @Output()
+  focusStudent: EventEmitter<Student> = new EventEmitter();
+
+  onFousStudent(student: Student) {
+    this.selectedStudent = student;
+    this.focusStudent.emit(this.selectedStudent);
+  }
+
+  addNewStudent() {
+    this.selectedStudent = new Student();
+  }
+
+  saveToList(student: Student) {
+    if (student.id == 0) {
+      student.id = this.students.length + 1;
+      this.students.push(student);
+    }
+    else {
+      let Update = this.students.filter(x => x.id == student.id)[0];
+      let index = this.students.indexOf(Update);
+      this.students[index] = student;
+    }
+    alert("add seccesfully");
+    this.selectedStudent = undefined;
+  }
 
 
   // listStudent: Student[] = [
@@ -18,52 +46,33 @@ export class StudentsComponent implements OnInit{
   //   {id:1,f_name:"batya",l_name:"goelman",address:"nh 23",phon: 789,activ:false,AvgMark:95}
   // ];
 
-  listStudent:Student[]=this._studentService.getStudents();
-  @Output()
-  onSaveStudent :EventEmitter<Student>=new EventEmitter<Student>();
 
   deleteStudent(student: Student) {
     let indexToDelete = this.listStudent.indexOf(student);
     this.listStudent.splice(indexToDelete, 1);
   }
-  selectedStudent?:Student;
 
-  showDetails(student:Student){
+  showDetails(student: Student) {
     this.selectedStudent = student;
   }
-  showNewStudentDetails(){
-    // this.selectedStudent=new Student(id:0,f_name:"",l_name:"",address:"",phon: 0,activ:true);
+  total(student: Student): number {
+    if (student.id)
+    return this._studentService.getSumById(student.id);
+    return 0;
   }
-  //@Output() newItemValue = new EventEmitter<Student>();
-  saveStudentToList(studentToSave:Student){ 
-    this.onSaveStudent.emit(studentToSave)
-    if(studentToSave.id==0){
-      studentToSave.id=this.listStudent.length+1;
-      this.listStudent.push(studentToSave);
+  constructor(private _studentService: StudentService) {
+    _studentService.getStudentForServer().subscribe(data=>{this.students=data;});
     }
-    else{
-        let studentToUpdate=this.listStudent.filter(x=>x.id==studentToSave.id)[0];
-        let index=this.listStudent.indexOf(studentToUpdate);
-        this.listStudent[index]=studentToSave;
+    showStudentByIsActiv(isActiv:boolean){
+      this._studentService.getStudentFromServerByISActiv(isActiv).subscribe(data=>this.students=data);//צריך להיות שווה למישהו אחר
     }
-  
-      // this.selectedStudent= null;
-  }
-  addNewStudentToList2(){
-    alert("save new Student");
-  }
-  showHelp(){
-    alert("you need help?");
-  }
-  showAdv(){
-    alert("show");
-  }
-  bntClick(e:any){
-
-  }
-  constructor(private _studentService: StudentService){
-    _studentService.getStudentSlowly().then(listStudent=>{
-    })
-  }
-  ngOnInit():void{}
+    saveStudentToServer(){
+      this._studentService.seveStudents(this.students).subscribe(d=>{
+        if(d)
+        alert("save seccess");
+      },err=>{alert(err);});
+    }
+  ngOnInit(): void {
+   // this._studentService=getStudentSlowly().then(x=>{this.students=x});
+   }
 }

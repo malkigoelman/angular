@@ -23,7 +23,7 @@ export class StudentDetailsFromComponent implements OnInit {
   public set student(value: Student) {
     this._student = value;
     if (this.student) {
-      this.studentForm = new FormGroup({
+      this.studentFrom = new FormGroup({
         "id": new FormControl(this.student.id),
         "firstName": new FormControl(this.student.firstName, [Validators.required, Validators.minLength(2)]),
         "lastname": new FormControl(this.student.lastname, [Validators.required, Validators.minLength(2)]),
@@ -50,17 +50,17 @@ export class StudentDetailsFromComponent implements OnInit {
 
   SaveNewStudent() {
     this.student = this.studentFrom.value;
-    if (this.missingDays && this.missingDays > 0 && this.missingFromDate)
-      this.student?.abDay.push({
-        fromDate: this.missingFromDate,
-        totalDay: this.missingDays
-      });
+    // if (this.missingDays && this.missingDays > 0 && this.missingFromDate)
+    //   this.student?.abDay.push({
+    //     fromDate: this.missingFromDate,
+    //     totalDay: this.missingDays
+    //   });
     this.onSaveNewStudent.emit(this.student);
   }
 
   total(): number {
     if (this.student?.id)
-      return this._studentService.getSumById(this.student.id);
+    return this._studentService.getSumById(this.student.id);
     return 0;
   }
 

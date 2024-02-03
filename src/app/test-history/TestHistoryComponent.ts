@@ -20,7 +20,7 @@ export class TestHistoryComponent implements OnInit {
 
   avg():number{
     if(this.id)
-    return._studentService.getAverageById(this.id);
+    return this._studentService.getAverageById(this.id);
   return 0;
   }
 

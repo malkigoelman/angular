@@ -1,4 +1,4 @@
-<div class="card" *ngIf="student else noActiv">
+<div class="card" *ngIf="student else !Active?">
     <div class="card-body">
         <form [formGroup]="studentForm">
             <div class="form-group">
